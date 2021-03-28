@@ -1,4 +1,4 @@
-from gym_chess.gym_chess import ChessEngine  # rust module
+from rustom import ChessEngine  # rust module
 from gym_chess.envs import ChessEnvV0, ChessEnvV1, ChessEnvV2  # envs
 from gym.envs.registration import register  # to register envs
 

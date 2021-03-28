@@ -62,19 +62,19 @@ class Piece:
 
 
 PIECES = [
-    Piece(icon="♙", desc=PAWN_DESC, color=BLACK, type=PAWN, id=-PAWN_ID, value=PAWN_VALUE),
-    Piece(icon="♘", desc=KNIGHT_DESC, color=BLACK, type=KNIGHT, id=-KNIGHT_ID, value=KNIGHT_VALUE),
-    Piece(icon="♗", desc=BISHOP_DESC, color=BLACK, type=BISHOP, id=-BISHOP_ID, value=BISHOP_VALUE),
-    Piece(icon="♖", desc=ROOK_DESC, color=BLACK, type=ROOK, id=-ROOK_ID, value=ROOK_VALUE),
-    Piece(icon="♕", desc=QUEEN_DESC, color=BLACK, type=QUEEN, id=-QUEEN_ID, value=QUEEN_VALUE),
-    Piece(icon="♔", desc=KING_DESC, color=BLACK, type=KING, id=-KING_ID, value=0),
+    Piece(icon="P", desc=PAWN_DESC, color=None, type=PAWN, id=-PAWN_ID, value=PAWN_VALUE),
+    Piece(icon="N", desc=KNIGHT_DESC, color=None, type=KNIGHT, id=-KNIGHT_ID, value=KNIGHT_VALUE),
+    Piece(icon="B", desc=BISHOP_DESC, color=None, type=BISHOP, id=-BISHOP_ID, value=BISHOP_VALUE),
+    Piece(icon="R", desc=ROOK_DESC, color=None, type=ROOK, id=-ROOK_ID, value=ROOK_VALUE),
+    Piece(icon="Q", desc=QUEEN_DESC, color=None, type=QUEEN, id=-QUEEN_ID, value=QUEEN_VALUE),
+    Piece(icon="K", desc=KING_DESC, color=None, type=KING, id=-KING_ID, value=0),
     Piece(icon=".", desc="", color=None, type=None, id=EMPTY_SQUARE_ID, value=0),
-    Piece(icon="♚", desc=KING_DESC, color=WHITE, type=KING, id=KING_ID, value=0),
-    Piece(icon="♛", desc=QUEEN_DESC, color=WHITE, type=QUEEN, id=QUEEN_ID, value=QUEEN_VALUE),
-    Piece(icon="♜", desc=ROOK_DESC, color=WHITE, type=ROOK, id=ROOK_ID, value=ROOK_VALUE),
-    Piece(icon="♝", desc=BISHOP_DESC, color=WHITE, type=BISHOP, id=BISHOP_ID, value=BISHOP_VALUE),
-    Piece(icon="♞", desc=KNIGHT_DESC, color=WHITE, type=KNIGHT, id=KNIGHT_ID, value=KNIGHT_VALUE),
-    Piece(icon="♟", desc=PAWN_DESC, color=WHITE, type=PAWN, id=PAWN_ID, value=PAWN_VALUE),
+    Piece(icon="k", desc=KING_DESC, color=None, type=KING, id=KING_ID, value=0),
+    Piece(icon="q", desc=QUEEN_DESC, color=None, type=QUEEN, id=QUEEN_ID, value=QUEEN_VALUE),
+    Piece(icon="r", desc=ROOK_DESC, color=None, type=ROOK, id=ROOK_ID, value=ROOK_VALUE),
+    Piece(icon="b", desc=BISHOP_DESC, color=None, type=BISHOP, id=BISHOP_ID, value=BISHOP_VALUE),
+    Piece(icon="n", desc=KNIGHT_DESC, color=None, type=KNIGHT, id=KNIGHT_ID, value=KNIGHT_VALUE),
+    Piece(icon="p", desc=PAWN_DESC, color=None, type=PAWN, id=PAWN_ID, value=PAWN_VALUE),
 ]
 
 ID_TO_COLOR = {piece.id: piece.color for piece in PIECES}
@@ -108,7 +108,11 @@ DEFAULT_BOARD = [
 
 
 def highlight(string, background="white", color="gray"):
-    return utils.colorize(utils.colorize(string, color), background, highlight=True)
+    if background == "green" or background == "red":
+        return ' ~ '
+    if background == 'yellow':
+        return ' . '
+    return string # utils.colorize(utils.colorize(string, color), background, highlight=False)
 
 
 # AGENT POLICY
@@ -480,13 +484,14 @@ class ChessEnvV2(gym.Env):
 
             x0, y0 = move[0][0], move[0][1]
             x1, y1 = move[1][0], move[1][1]
-            if len(grid[x0][y0]) < 4:
-                grid[x0][y0] = highlight(grid[x0][y0], background="white")
-            if len(grid[x1][y1]) < 4:
-                if self.board[x1][y1]:
-                    grid[x1][y1] = highlight(grid[x1][y1], background="red")
-                else:
-                    grid[x1][y1] = highlight(grid[x1][y1], background="green")
+            grid[x0][y0], grid[x1][y1] = grid[x1][y1], grid[x0][y0]
+            # if len(grid[x0][y0]) < 4:
+            #     grid[x0][y0] = highlight(grid[x0][y0], background="yellow")
+            # if len(grid[x1][y1]) < 4:
+            #     if self.board[x1][y1]:
+            #         grid[x1][y1] = highlight(grid[x1][y1], background="red")
+            #     else:
+            #         grid[x1][y1] = highlight(grid[x1][y1], background="green")
         return self.render_grid(grid, mode=mode)
 
     def move_to_action(self, move):
