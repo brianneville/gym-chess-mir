@@ -108,10 +108,6 @@ DEFAULT_BOARD = [
 
 
 def highlight(string, background="white", color="gray"):
-    if background == "green" or background == "red":
-        return ' ~ '
-    if background == 'yellow':
-        return ' . '
     return string # utils.colorize(utils.colorize(string, color), background, highlight=False)
 
 
@@ -484,7 +480,7 @@ class ChessEnvV2(gym.Env):
 
             x0, y0 = move[0][0], move[0][1]
             x1, y1 = move[1][0], move[1][1]
-            grid[x0][y0], grid[x1][y1] = grid[x1][y1], grid[x0][y0]
+            grid[x0][y0], grid[x1][y1] = ' . ', grid[x0][y0]
             # if len(grid[x0][y0]) < 4:
             #     grid[x0][y0] = highlight(grid[x0][y0], background="yellow")
             # if len(grid[x1][y1]) < 4:
