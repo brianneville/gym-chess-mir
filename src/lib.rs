@@ -700,8 +700,8 @@ pub fn next_state(state: &State, player: Color, move_struct: MoveStruct) -> (Sta
                 // Pawn becomes Queen
                 let piece_type = *ID_TO_TYPE.get(&piece_to_move).unwrap();
                 if piece_type == PieceType::Pawn {
-                    if (player == Color::White && _to.0 == 7)
-                        || (player == Color::Black && _to.0 == 0)
+                    if (player == Color::White && _to.0 == 0)
+                        || (player == Color::Black && _to.0 == 7)
                     {
                         new_state.board[_to.0][_to.1] = QUEEN_ID * player.to_int();
                         reward += CONVERT_PAWN_TO_QUEEN_REWARD;
