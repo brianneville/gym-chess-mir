@@ -942,7 +942,7 @@ fn pawn_moves(state: &State, player: Color, coords: Square, attack: bool) -> Vec
         {
             let x = two_step_square.0 as usize;
             let y = two_step_square.1 as usize;
-            if square_is_on_board(two_step_square) {
+            if square_is_on_board(two_step_square) && square_is_empty(state, one_step_square) {
                 if (player == Color::White && coords.0 == 6)
                     || (player == Color::Black && coords.0 == 1)
                 {
